@@ -13,8 +13,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@public/*":["public/*"],
+      "@assets/*":["assets/*"],
+      "@store/*":["store/*"],
+      "@lang/*":["lang/*"],
+      "@components/*":["components/*"],
+      "@layouts/*":["layouts/*"],
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/store.ts", "Components/Test/TestSocket.jsx"],
   "exclude": ["node_modules"]
 }
