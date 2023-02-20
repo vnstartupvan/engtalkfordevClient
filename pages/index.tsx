@@ -6,6 +6,7 @@ import Toolbar from 'Components/Toolbar/Toolbar';
 import RoomList from 'Components/Rooms/RoomList/RoomList';
 import apis from 'apis/apis';
 import useSocket from 'Hooks/useSocket';
+import { SocketProvider } from 'contexts/Socket';
 const inter = Inter({ subsets: ['latin'] });
 
 /* 
@@ -107,20 +108,14 @@ export default function Home() {
         },
     ];
     const [roomList, setroomList] = useState();
-    const uri = 'http://localhost:3001';
-    const socket = useSocket(uri);
     useEffect(() => {
         const fetchRoomList = async () => {
             const roomList = await apis.fetchRoomList();
-            console.log(roomList);
             setroomList(roomList);
         };
         fetchRoomList();
     }, []);
 
-    // useEffect(() => {
-    //     socketRef.current = io()
-    // })
     return (
         <>
             <Head>
@@ -133,10 +128,12 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <DefaultLayout>
-                {/* Toolbar */}
-                <Toolbar />
-                <RoomList roomList={mockRoomListData} />
-                {/* Room List -> Room */}
+                <SocketProvider>
+                    {/* Toolbar */}
+                    <Toolbar />
+                    <RoomList roomList={mockRoomListData} />
+                    {/* Room List -> Room */}
+                </SocketProvider>
             </DefaultLayout>
         </>
     );
