@@ -1,25 +1,12 @@
 import Head from 'next/head';
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Inter } from '@next/font/google';
 import DefaultLayout from 'Layouts/DefaultLayout/DefaultLayout';
 import Toolbar from 'Components/Toolbar/Toolbar';
 import RoomList from 'Components/Rooms/RoomList/RoomList';
-import apis from 'apis/apis';
-import useSocket from 'Hooks/useSocket';
 import { SocketProvider } from 'contexts/Socket';
 const inter = Inter({ subsets: ['latin'] });
 
-/* 
-Home Template: {
-    State: Room list
-}
-Header
-Toolbar
-Section Room list : {
-    props: room list
-}
-Footer
-*/
 export default function Home() {
     const mockRoomListData = [
         {
@@ -107,14 +94,6 @@ export default function Home() {
             slot: 4,
         },
     ];
-    const [roomList, setroomList] = useState();
-    useEffect(() => {
-        const fetchRoomList = async () => {
-            const roomList = await apis.fetchRoomList();
-            setroomList(roomList);
-        };
-        fetchRoomList();
-    }, []);
 
     return (
         <>
@@ -131,7 +110,7 @@ export default function Home() {
                 <SocketProvider>
                     {/* Toolbar */}
                     <Toolbar />
-                    <RoomList roomList={mockRoomListData} />
+                    <RoomList />
                     {/* Room List -> Room */}
                 </SocketProvider>
             </DefaultLayout>
