@@ -8,8 +8,8 @@ export interface IModalProps {
     handleOk: () => void;
     handleCancel: () => void;
 }
-import { APIPRoomProps } from 'apis/roomServices/room.service';
 import { useSocketContext } from 'contexts/Socket';
+import { RoomInfoPayload } from '@libs/models/room';
 
 const ModalComponent = ({
     isModalOpen,
@@ -20,7 +20,7 @@ const ModalComponent = ({
         useSocketContext();
 
     console.log(SocketState);
-    const handleSubmit = async (values: APIPRoomProps) => {
+    const handleSubmit = async (values: RoomInfoPayload) => {
         const room = values;
         await handleCreateRoom(room);
         SocketEmitEvents.SendCreateRoomSignal();
