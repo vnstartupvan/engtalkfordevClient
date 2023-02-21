@@ -18,6 +18,8 @@
     "paths": {
       "@public/*":["public/*"],
       "@assets/*":["assets/*"],
+      "@constants/*":["constants/*"],
+      "@libs/*":["libs/*"],
       "@store/*":["store/*"],
       "@lang/*":["lang/*"],
       "@components/*":["components/*"],

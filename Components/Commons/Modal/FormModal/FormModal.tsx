@@ -1,54 +1,54 @@
-import React, {useEffect, useState} from 'react'
-import {Select, Form, Input, Button} from 'antd'
-import {APIPRoomProps} from 'apis/roomServices/room.service'
+import React, { useEffect, useState } from 'react';
+import { Select, Form, Input, Button } from 'antd';
+import { RoomInfoPayload } from '@libs/models/room';
 
-type RequiredMark = boolean | 'optional'
-const {Option} = Select
+type RequiredMark = boolean | 'optional';
+const { Option } = Select;
 
 interface IFormModalProps {
-    handleAfterSubmit: () => void
-    handleSubmit: (values: APIPRoomProps) => void
+    handleAfterSubmit: () => void;
+    handleSubmit: (values: RoomInfoPayload) => void;
 }
-const FormModal = ({handleAfterSubmit, handleSubmit}: IFormModalProps) => {
-    const [form] = Form.useForm()
+const FormModal = ({ handleAfterSubmit, handleSubmit }: IFormModalProps) => {
+    const [form] = Form.useForm();
     const [requiredMark, setRequiredMarkType] =
-        useState<RequiredMark>('optional')
+        useState<RequiredMark>('optional');
 
     const onRequiredTypeChange = ({
         requiredMarkValue,
     }: {
-        requiredMarkValue: RequiredMark
+        requiredMarkValue: RequiredMark;
     }) => {
-        setRequiredMarkType(requiredMarkValue)
-    }
+        setRequiredMarkType(requiredMarkValue);
+    };
 
     const RenderLimitOption = (limit: number): React.ReactNode => {
-        let i = 0
-        let options = []
+        let i = 0;
+        let options = [];
         do {
-            const value = i + 1
+            const value = i + 1;
             const option = (
                 <Option key={value} value={value}>
                     {value}
                 </Option>
-            )
-            options.push(option)
-            i++
-        } while (i < limit)
-        return options
-    }
+            );
+            options.push(option);
+            i++;
+        } while (i < limit);
+        return options;
+    };
 
-    const onFinish = (values: APIPRoomProps) => {
-        handleSubmit(values)
-        handleAfterSubmit()
-        form.resetFields()
-    }
+    const onFinish = (values: RoomInfoPayload) => {
+        handleSubmit(values);
+        handleAfterSubmit();
+        form.resetFields();
+    };
 
     return (
         <Form
             form={form}
             layout="vertical"
-            initialValues={{requiredMarkValue: requiredMark}}
+            initialValues={{ requiredMarkValue: requiredMark }}
             onValuesChange={onRequiredTypeChange}
             onFinish={onFinish}
             requiredMark={requiredMark}
@@ -62,11 +62,11 @@ const FormModal = ({handleAfterSubmit, handleSubmit}: IFormModalProps) => {
                 maxWidth: 600,
             }}
         >
-            <Form.Item style={{marginBottom: 0}}>
+            <Form.Item style={{ marginBottom: 0 }}>
                 <Form.Item
                     name="topic"
                     label="Topic"
-                    style={{display: 'inline-block', width: 'calc(60%)'}}
+                    style={{ display: 'inline-block', width: 'calc(60%)' }}
                     required
                     initialValue="any"
                 >
@@ -76,7 +76,7 @@ const FormModal = ({handleAfterSubmit, handleSubmit}: IFormModalProps) => {
                     name="userLimit"
                     label="Maximun People"
                     initialValue="10"
-                    style={{display: 'inline-block', width: 'calc(40%)'}}
+                    style={{ display: 'inline-block', width: 'calc(40%)' }}
                 >
                     <Select placeholder="Unlimited" allowClear>
                         {RenderLimitOption(10)}
@@ -113,7 +113,7 @@ const FormModal = ({handleAfterSubmit, handleSubmit}: IFormModalProps) => {
                 </Button>
             </Form.Item>
         </Form>
-    )
-}
+    );
+};
 
-export default FormModal
+export default FormModal;

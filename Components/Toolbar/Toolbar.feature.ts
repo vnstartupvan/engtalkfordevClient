@@ -1,10 +1,8 @@
-import { fetchRoomURL } from 'apis/roomServices/room.service';
-import { APIPRoomProps } from 'apis/roomServices/room.service';
-export const handleCreateRoom = async (room: APIPRoomProps) => {
-    const uri = 'http://localhost:3001';
+import { RoomInfoPayload } from './../../libs/models/room';
+import { fetchRoomURL } from '@libs/api/room';
+
+export const handleCreateRoom = async (room: RoomInfoPayload) => {
     const newRoom = await fetchRoomURL(room);
     const roomURL = newRoom.url;
-    console.log(newRoom);
-
     window.open(`http://localhost:3000/room/${roomURL}`);
 };
