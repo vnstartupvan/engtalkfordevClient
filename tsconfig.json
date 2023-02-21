@@ -24,6 +24,6 @@
       "@layouts/*":["layouts/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/store.ts", "Components/Test/TestSocket.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/store.ts", "Components/Test/TestSocket.jsx", "tailwind.config.js", "pages/index.tsx"],
   "exclude": ["node_modules"]
 }

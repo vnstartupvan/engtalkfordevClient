@@ -1,5 +1,5 @@
-import React from "react";
-import { RoomWrapper, Header, UserList, Bottom, Avatar } from "./styled";
+import React from 'react';
+import { RoomWrapper, Header, UserList, Bottom, Avatar } from './styled';
 export interface componentRoomProps {
     room: {
         users: object[];
@@ -16,9 +16,9 @@ function RoomItem({ room }: componentRoomProps) {
                 <h3>{topic}</h3>
             </Header>
             <UserList>
-                {users.map((user, id) => (
+                {/* {users.map((user, id) => (
                     <Avatar borderType="dashed" key={id} />
-                ))}
+                ))} */}
             </UserList>
             <Bottom>Join and talk now!</Bottom>
         </RoomWrapper>

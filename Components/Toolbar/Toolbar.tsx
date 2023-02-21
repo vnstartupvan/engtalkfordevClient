@@ -1,7 +1,7 @@
-import React from 'react'
-import {Button, Space} from 'antd'
-import ModalComponent from 'Components/Commons/Modal/Modal'
-import {useState} from 'react'
+import React from 'react';
+import { Button, Space } from 'antd';
+import ModalComponent from 'Components/Commons/Modal/Modal';
+import { useState } from 'react';
 import {
     ToolbarWrapper,
     CreateRoom,
@@ -9,21 +9,22 @@ import {
     Policy,
     JoinFb,
     BtnText,
-} from './styled'
+} from './styled';
 
 function Toolbar() {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const showModal = () => {
-        setIsModalOpen(true)
-    }
+        setIsModalOpen(true);
+    };
 
     const handleOk = (): void => {
-        setIsModalOpen(false)
-    }
+        setIsModalOpen(false);
+    };
 
     const handleCancel = (): void => {
-        setIsModalOpen(false)
-    }
+        setIsModalOpen(false);
+    };
 
     return (
         <ToolbarWrapper>
@@ -65,7 +66,7 @@ function Toolbar() {
                 handleCancel={handleCancel}
             />
         </ToolbarWrapper>
-    )
+    );
 }
 
-export default Toolbar
+export default Toolbar;
