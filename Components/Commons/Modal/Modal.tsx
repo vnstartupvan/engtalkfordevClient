@@ -23,7 +23,7 @@ const ModalComponent = ({
     const handleSubmit = async (values: APIPRoomProps) => {
         const room = values;
         await handleCreateRoom(room);
-        SocketEmitEvents.SendCreateRoomSignal(room);
+        SocketEmitEvents.SendCreateRoomSignal();
     };
     return (
         <>

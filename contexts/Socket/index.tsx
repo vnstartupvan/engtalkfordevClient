@@ -108,6 +108,14 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     }, []);
 
     const StartListeners = () => {
+        /* Listen event new room signal */
+        socket.on('new room signal', (data) => {
+            console.log('new room signal: ', data);
+            SocketDispatch({
+                type: ESocketContextAction.CREATE_ROOM,
+                payload: true,
+            });
+        });
         /* Reconnect event */
         socket.io.on('reconnect', (attemp) => {
             console.info('Reconnected on attemp: ' + attemp);
@@ -121,15 +129,6 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
         /* Reconnection error */
         socket.io.on('reconnect_error', (attemp) => {
             console.info('Reconnection error: ' + attemp);
-        });
-
-        /* Listen event new room signal */
-        socket.on('newRoomSignal', (data) => {
-            console.log('new room signal: ', data);
-            SocketDispatch({
-                type: ESocketContextAction.CREATE_ROOM,
-                payload: true,
-            });
         });
     };
 
@@ -145,8 +144,14 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
         socket.emit('create-room', 'sending signal');
     };
 
-    const SocketEmitEvents = {
+    interface ISocketEmitEvnets {
+        SendCreateRoomSignal: () => void;
+        afterHandleSignal: () => void;
+    }
+
+    const SocketEmitEvents: ISocketEmitEvnets = {
         SendCreateRoomSignal,
+        afterHandleSignal,
     };
 
     return (

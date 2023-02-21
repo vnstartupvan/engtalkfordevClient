@@ -14,6 +14,7 @@ function RoomList() {
         SocketDispatch,
         SocketEmitEvents,
     } = useSocketContext();
+    console.log(newRoomSignal);
 
     const fetchRoomList = async () => {
         setIsLoading(true);
@@ -30,6 +31,7 @@ function RoomList() {
     useEffect(() => {
         if (newRoomSignal) {
             fetchRoomList();
+            SocketEmitEvents.afterHandleSignal();
         }
     }, [newRoomSignal]);
 
