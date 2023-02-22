@@ -3,7 +3,7 @@ import RoomItem from '../RoomItem/RoomItem';
 import { RoomsWrapper } from './styled';
 import { fetchRoomList } from '@libs/api/room';
 import { IRoom } from 'libs/models/room';
-import { useSocketContext } from 'contexts/Socket';
+import { useSocketContext } from '@libs/Socket';
 import { StyledSpin } from 'overides/overrides';
 
 function RoomList() {
