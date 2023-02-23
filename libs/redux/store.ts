@@ -1,11 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import appReducer from "./reducers/appReducer";
-import uiReducer from "./reducers/uiReducer";
+import { configureStore } from '@reduxjs/toolkit';
+import appReducer from './reducers/appReducer';
+import AuthReducer from './reducers/AuthReducer';
+import uiReducer from './reducers/uiReducer';
 
 export const store = configureStore({
     reducer: {
         app: appReducer,
         UI: uiReducer,
+        auth: AuthReducer,
     },
 });
 
