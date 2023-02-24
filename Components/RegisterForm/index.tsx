@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
+import { register } from '@libs/api/auth';
 
 const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -16,7 +17,9 @@ export interface IRegisterForm {
     handleOk: () => void;
 }
 const RegisterForm = ({ handleOk }: IRegisterForm) => {
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
+        const { username, password, fullname, email } = values;
+        await register(username, password, fullname, email);
         console.log('Success:', values);
         handleOk();
     };
@@ -35,7 +38,7 @@ const RegisterForm = ({ handleOk }: IRegisterForm) => {
         >
             <Form.Item
                 label="Full name"
-                name="fullName"
+                name="fullname"
                 rules={[{ required: true, message: 'Please input your name!' }]}
             >
                 <Input />

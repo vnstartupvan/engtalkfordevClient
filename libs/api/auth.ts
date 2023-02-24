@@ -9,10 +9,17 @@ export const login = (username: string, password: string) => {
     }) as Promise<ILoginReponse>;
 };
 
-export const register = (username: string, password: string) => {
+export const register = (
+    username: string,
+    password: string,
+    fullname: string,
+    email: string,
+) => {
     return api.post('/register', {
-        login: username,
+        username,
         password,
+        fullname,
+        email,
     }) as Promise<IRegisterReponse>;
 };
 

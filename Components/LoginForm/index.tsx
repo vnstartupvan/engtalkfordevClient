@@ -8,8 +8,10 @@ import { updateProfile } from '@libs/redux/reducers/AuthReducer';
 export interface ILoginForm {
     handleOk: () => void;
 }
+
 const LoginForm = ({ handleOk }: ILoginForm) => {
     const dispatch: AppDispatch = useDispatch();
+
     const onFinish = async (values: any) => {
         try {
             const { username, password } = values;
@@ -18,9 +20,11 @@ const LoginForm = ({ handleOk }: ILoginForm) => {
             handleOk();
         } catch (error) {}
     };
+
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
+
     return (
         <Form
             name="basic"
