@@ -1,11 +1,24 @@
 import { IRoom } from '@libs/models/room';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { RoomWrapper, Header, UserList, StyledButton, Avatar } from './styled';
+import { RootState } from 'libs/redux/store';
+
 export interface IComponentProps {
     room: IRoom;
 }
-function RoomItem({room}: IComponentProps) {
+function RoomItem({ room }: IComponentProps) {
+    const myProfile = useSelector((state: RootState) => state.auth.myProfile);
     const { topic, users, url } = room;
+
+    const handleJoinRoom = () => {
+        if (!myProfile) {
+            alert('Please Log in to join our community!');
+            return;
+        }
+        window.open(`http://localhost:3000/room/${url}`);
+    };
+
     return (
         <RoomWrapper>
             <Header>
@@ -16,8 +29,8 @@ function RoomItem({room}: IComponentProps) {
                     <Avatar borderType="dashed" key={id} />
                 ))} */}
             </UserList>
-            <StyledButton>
-                <a target="_blank" href={`room/${url}`}>Join and talk now!</a>
+            <StyledButton onClick={handleJoinRoom}>
+                Join and talk now!
             </StyledButton>
         </RoomWrapper>
     );

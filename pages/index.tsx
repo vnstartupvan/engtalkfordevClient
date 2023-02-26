@@ -23,10 +23,10 @@ export default function Home() {
                 console.log(user);
                 dispatch(updateProfile(user));
             } catch (error) {}
-        };
-        console.log(123);
-        getMyProfile();
+        }
+        if (!myProfile) getMyProfile();
     }, []);
+
     return (
         <>
             <Head>

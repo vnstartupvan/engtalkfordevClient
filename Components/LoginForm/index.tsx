@@ -16,7 +16,7 @@ const LoginForm = ({ handleOk }: ILoginForm) => {
         try {
             const { username, password } = values;
             const user = await login(username, password);
-            dispatch(updateProfile(user));
+            dispatch(updateProfile(user.user));
             handleOk();
         } catch (error) {}
     };

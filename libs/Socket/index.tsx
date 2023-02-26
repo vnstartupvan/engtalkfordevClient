@@ -11,7 +11,7 @@ import useSocket from 'Hooks/useSocket';
 export interface ISocketContextState {
     socket: Socket | undefined;
     uid: string;
-    users: string[];
+    users: any[];
     newRoomSignal: boolean;
 }
 
@@ -60,13 +60,13 @@ export const SocketContextReducer = (
         case ESocketContextAction.UPDATE_USERS:
             return {
                 ...state,
-                users: action.payload as string[],
+                users: action.payload as any[],
             };
         case ESocketContextAction.REMOVE_USER:
             return {
                 ...state,
                 users: state.users.filter(
-                    (uid) => uid !== (action.payload as string),
+                    (uid) => uid._id !== (action.payload as string),
                 ),
             };
         case ESocketContextAction.CREATE_ROOM:
@@ -125,11 +125,11 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
         });
 
         /* Listen event disconnect in a room */
-        socket.on('user-disconnect', (userId) => {
-            console.log(`disconnected user: ${userId}`);
+        socket.on('user-disconnect', (user) => {
+            console.log(`disconnected user: ${user}`);
             SocketDispatch({
                 type: ESocketContextAction.REMOVE_USER,
-                payload: userId,
+                payload: user._id,
             });
         });
 
@@ -164,9 +164,9 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
         });
     };
 
-    const handleJoinRoom = (room: string, userId: string) => {
+    const handleJoinRoom = (room: string, user: any) => {
         const testuser = 'user' + Math.floor(Math.random() * 100);
-        socket.emit('join-room', room, testuser);
+        socket.emit('join-room', room, user);
     };
 
     const SendCreateRoomSignal = () => {
@@ -177,7 +177,7 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     interface ISocketEmitEvnets {
         SendCreateRoomSignal: () => void;
         afterHandleSignal: () => void;
-        handleJoinRoom: (room: string, userId: string) => void;
+        handleJoinRoom: (room: string, userId: any) => void;
     }
 
     const SocketEmitEvents: ISocketEmitEvnets = {

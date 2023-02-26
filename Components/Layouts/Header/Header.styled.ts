@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Header = styled.div`
     color: #fff;
@@ -26,7 +26,7 @@ export const MainContent = styled.div`
     }
 `;
 
-export const ActionList = styled.div``;
+export const StyledActionList = styled.div``;
 
 export const UserIcon = styled.span`
     cursor: pointer;
@@ -34,4 +34,14 @@ export const UserIcon = styled.span`
     padding: 5px;
     color: #000;
     font-size: 20px;
+`;
+
+export const AuthAction = styled.div`
+    display: flex;
+    align-items: center;
+    && > span {
+        margin-left: 5px;
+        display: inline-block;
+        text-transform: capitalize;
+    }
 `;
