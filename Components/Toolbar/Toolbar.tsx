@@ -56,7 +56,14 @@ function Toolbar() {
                 <Space>
                     <Button type="primary">
                         <i className="fab fa-facebook-square"></i>
-                        <BtnText>Join our community</BtnText>
+                        <BtnText>
+                            <a
+                                href="https://www.facebook.com/groups/510649920919412"
+                                target="_blank"
+                            >
+                                Join our community
+                            </a>
+                        </BtnText>
                     </Button>
                 </Space>
             </JoinFb>
