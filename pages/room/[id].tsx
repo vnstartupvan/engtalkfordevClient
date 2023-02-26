@@ -8,38 +8,58 @@ import { useRouter } from 'next/router';
 import { getProfile } from '@libs/api/user';
 import { updateProfile } from '@libs/redux/reducers/AuthReducer';
 import { useAppDispatch, useAppSelector } from 'Hooks/UseReduxStore';
+import { IUserResponse } from '@libs/models/user';
+
+import {
+    initiateSocket,
+    disconnectSocket,
+    testSocket,
+    refreshRooms,
+    createRoom,
+    joinRoom,
+    userDisconnect,
+    removeListeners,
+} from '@libs/Socket/room-socket';
 
 function RoomTemplate() {
     const myProfile = useAppSelector((state) => state.auth.myProfile);
     const Router = useRouter();
     const roomID = Router.query.id;
     const { SocketEmitEvents, SocketState } = useSocketContext();
-    const users = SocketState.users;
-    console.log(users);
+    // const users = SocketState.users;
+    // console.log(users);
     const dispatch = useAppDispatch();
 
+    const [users, setUsers] = useState<IUserResponse[]>([]);
+
     useEffect(() => {
-        const getMyProfile = async () => {
-            try {
-                const user = await getProfile();
-                console.log(user);
-                dispatch(updateProfile(user));
-            } catch (error) {}
-        };
-        if (!myProfile) getMyProfile();
+        initiateSocket()
+        testSocket('test socket')
+        // const getMyProfile = async () => {
+        //     try {
+        //         const user = await getProfile();
+        //         console.log(user);
+        //         dispatch(updateProfile(user));
+        //     } catch (error) {}
+        // };
+        // if (!myProfile) getMyProfile();
     }, []);
 
-    useEffect(() => {
-        if (!myProfile) {
-            alert('Please Log in to join our community!');
-            Router.push('http://localhost:3000');
-        }
+    // useEffect(() => {
+    //     if (!myProfile) return;
+    // }, [myProfile]);
 
-        if (!roomID || !myProfile) return;
+    // useEffect(() => {
+    //     if (!roomID || !myProfile) return;
 
-        console.log(myProfile);
-        SocketEmitEvents.handleJoinRoom(roomID, myProfile);
-    }, [roomID, myProfile]);
+    //     if (!myProfile) {
+    //         alert('Please Log in to join our community!');
+    //         Router.push('http://localhost:3000');
+    //     }
+
+    //     console.log(myProfile);
+    //     SocketEmitEvents.handleJoinRoom(roomID, myProfile);
+    // }, [roomID, myProfile]);
 
     return (
         <>

@@ -5,13 +5,15 @@ import { DefaultEventsMap } from '@socket.io/component-emitter';
 import io, { Socket } from 'socket.io-client';
 
 let ws: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
-
-export const initiateSocket = (userId: string) => {
-    ws = io(env.apiUrl || '', { transports: ['websocket'], query: { userId } });
+export const initiateSocket = () => {
+    ws = io(env.apiUrl || '');
 };
-
 export const disconnectSocket = () => {
     if (ws) ws.disconnect();
+};
+
+export const testSocket = (data: any) => {
+    if (ws) ws.emit('testSocket', data);
 };
 
 export const refreshRooms = (cb: (data: any) => void) => {
@@ -39,9 +41,9 @@ export const removeListeners = (events: Array<any>) => {
         });
 };
 
-const userSocket = {
+const roomSocket = {
     ws,
-    initiateSocket,
+    testSocket,
     disconnectSocket,
     refreshRooms,
     createRoom,
@@ -50,4 +52,4 @@ const userSocket = {
     removeListeners,
 };
 
-export default userSocket;
+export default roomSocket;
