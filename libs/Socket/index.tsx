@@ -7,11 +7,12 @@ import {
     useState,
 } from 'react';
 import useSocket from 'Hooks/useSocket';
+import { IUserResponse } from '@libs/models/user';
 
 export interface ISocketContextState {
     socket: Socket | undefined;
     uid: string;
-    users: any[];
+    users: IUserResponse[];
     newRoomSignal: boolean;
 }
 
@@ -93,7 +94,6 @@ export interface ISockerProviderProps {
 }
 
 export const SocketProvider = ({ children }: ISockerProviderProps) => {
-    const [loading, setLoading] = useState<boolean>(false);
     const [SocketState, SocketDispatch] = useReducer(
         SocketContextReducer,
         defaultSocketContextState,
@@ -165,7 +165,6 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     };
 
     const handleJoinRoom = (room: string, user: any) => {
-        const testuser = 'user' + Math.floor(Math.random() * 100);
         socket.emit('join-room', room, user);
     };
 
@@ -177,7 +176,7 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     interface ISocketEmitEvnets {
         SendCreateRoomSignal: () => void;
         afterHandleSignal: () => void;
-        handleJoinRoom: (room: string, userId: any) => void;
+        handleJoinRoom: (room: string, userId: IUserResponse) => void;
     }
 
     const SocketEmitEvents: ISocketEmitEvnets = {

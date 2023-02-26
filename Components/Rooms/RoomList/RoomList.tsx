@@ -40,6 +40,7 @@ function RoomList() {
         handleGetRoomList();
     }, []);
     console.log(rooms);
+    
     return (
         <RoomsWrapper>
             {!isLoading ? (

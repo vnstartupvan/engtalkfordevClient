@@ -5,20 +5,18 @@ import styled from 'styled-components';
 import ChatBar from 'Components/Room/ChatBar/ChatBar';
 import { useSocketContext } from '@libs/Socket';
 import { useRouter } from 'next/router';
-import { RootState } from 'libs/redux/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { getProfile } from '@libs/api/user';
 import { updateProfile } from '@libs/redux/reducers/AuthReducer';
-import { AppDispatch } from '@libs/redux/store';
+import { useAppDispatch, useAppSelector } from 'Hooks/UseReduxStore';
 
 function RoomTemplate() {
-    const myProfile = useSelector((state: RootState) => state.auth.myProfile);
+    const myProfile = useAppSelector((state) => state.auth.myProfile);
     const Router = useRouter();
     const roomID = Router.query.id;
     const { SocketEmitEvents, SocketState } = useSocketContext();
     const users = SocketState.users;
-    console.log(users)
-    const dispatch: AppDispatch = useDispatch();
+    console.log(users);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const getMyProfile = async () => {
@@ -32,11 +30,13 @@ function RoomTemplate() {
     }, []);
 
     useEffect(() => {
+        if (!myProfile) {
+            alert('Please Log in to join our community!');
+            Router.push('http://localhost:3000');
+        }
+
         if (!roomID || !myProfile) return;
-        // if (!myProfile) {
-        //     alert('Please Log in to join our community!');
-        //     Router.push('http://localhost:3000');
-        // }
+
         console.log(myProfile);
         SocketEmitEvents.handleJoinRoom(roomID, myProfile);
     }, [roomID, myProfile]);
