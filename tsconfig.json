@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,16 +20,45 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@public/*":["public/*"],
-      "@assets/*":["assets/*"],
-      "@constants/*":["constants/*"],
-      "@libs/*":["libs/*"],
-      "@store/*":["store/*"],
-      "@lang/*":["lang/*"],
-      "@components/*":["components/*"],
-      "@layouts/*":["layouts/*"],
+      "@public/*": [
+        "public/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@constants/*": [
+        "constants/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@store/*": [
+        "store/*"
+      ],
+      "@lang/*": [
+        "lang/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@layouts/*": [
+        "layouts/*"
+      ],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/store.ts", "Components/Test/TestSocket.jsx", "tailwind.config.js", "pages/index.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "libs/redux/store.ts",
+    "Components/Test/TestSocket.jsx",
+    "tailwind.config.js",
+    "pages/index.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

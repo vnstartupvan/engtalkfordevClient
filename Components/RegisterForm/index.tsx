@@ -1,9 +1,6 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
+import { Button, Form, Input } from 'antd';
+import { register } from '@libs/api/auth';
 
 const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -16,77 +13,107 @@ const validateMessages = {
     },
 };
 
-const RegisterForm: React.FC = () => (
-    <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 24 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-        validateMessages={validateMessages}
-    >
-        <Form.Item
-            label="Full name"
-            name="fullName"
-            rules={[{ required: true, message: 'Please input your name!' }]}
-        >
-            <Input />
-        </Form.Item>
+export interface IRegisterForm {
+    handleOk: () => void;
+}
+const RegisterForm = ({ handleOk }: IRegisterForm) => {
+    const onFinish = async (values: any) => {
+        const { username, password, fullname, email } = values;
+        await register(username, password, fullname, email);
+        console.log('Success:', values);
+        handleOk();
+    };
 
-        <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your email!',
-                },
-                {
-                    type: 'email',
-                },
-            ]}
+    return (
+        <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 24 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            validateMessages={validateMessages}
         >
-            <Input />
-        </Form.Item>
+            <Form.Item
+                label="Full name"
+                name="fullname"
+                rules={[{ required: true, message: 'Please input your name!' }]}
+            >
+                <Input />
+            </Form.Item>
 
-        <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-        >
-            <Input />
-        </Form.Item>
+            <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please input your email!',
+                    },
+                    {
+                        type: 'email',
+                    },
+                ]}
+            >
+                <Input />
+            </Form.Item>
 
-        <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-            <Input.Password />
-        </Form.Item>
+            <Form.Item
+                label="Username"
+                name="username"
+                rules={[
+                    { required: true, message: 'Please input your username!' },
+                ]}
+            >
+                <Input />
+            </Form.Item>
 
-        <Form.Item
-            label="Confirm password"
-            name="confirmPassword"
-            rules={[
-                {
-                    required: true,
-                    message: 'Please input your confirm password!',
-                },
-            ]}
-        >
-            <Input.Password />
-        </Form.Item>
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                    { required: true, message: 'Please input your password!' },
+                ]}
+            >
+                <Input.Password />
+            </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
-        </Form.Item>
-    </Form>
-);
+            <Form.Item
+                name="confirm"
+                label="Confirm Password"
+                dependencies={['password']}
+                hasFeedback
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(
+                                new Error(
+                                    'The two passwords that you entered do not match!',
+                                ),
+                            );
+                        },
+                    }),
+                ]}
+            >
+                <Input.Password />
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
+        </Form>
+    );
+};
 
 export default RegisterForm;

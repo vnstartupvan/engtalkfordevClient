@@ -1,15 +1,15 @@
+import { Utils } from '@utils/common/Utils';
 import { Modal, Button } from 'antd';
 import LoginForm from 'Components/LoginForm';
 import RegisterForm from 'Components/RegisterForm';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 interface IModalAuthProps {
-    title?: string;
     isOpen: boolean;
     handleOk: () => void;
-    handleCancel?: () => void;
+    handleCancel: () => void;
 }
-function ModalAuth({ title, isOpen, handleOk, handleCancel }: IModalAuthProps) {
+function ModalAuth({ isOpen, handleOk, handleCancel }: IModalAuthProps) {
     type AuthFormType = 'login' | 'register';
     const [authForm, setAuthForm] = useState<AuthFormType>('login');
     const handleSwitchBtn = () => {
@@ -21,23 +21,38 @@ function ModalAuth({ title, isOpen, handleOk, handleCancel }: IModalAuthProps) {
     };
     return (
         <ModalAuthContainer
-            title={title}
+            title={Utils.Capitalize(authForm)}
             open={isOpen}
             onOk={handleOk}
             onCancel={handleCancel}
+            footer={null}
         >
-            {authForm === 'login' ? <LoginForm /> : <RegisterForm />}
-            <div style={{ textAlign: 'center' }}>
-                <Button onClick={handleSwitchBtn}>
+            <div style={{ textAlign: 'left', marginBottom: '15px' }}>
+                <StyledButton onClick={handleSwitchBtn}>
                     {authForm === 'login'
                         ? 'Not a member yet! Sign up.'
                         : 'Login'}
-                </Button>
+                </StyledButton>
             </div>
+            {authForm === 'login' ? (
+                <LoginForm handleOk={handleOk} />
+            ) : (
+                <RegisterForm handleOk={handleOk} />
+            )}
         </ModalAuthContainer>
     );
 }
 
 const ModalAuthContainer = styled(Modal)``;
+
+const StyledButton = styled(Button)`
+    &&&:hover {
+        border-color: #ccc;
+        color: #000;
+        span {
+            text-decoration: underline;
+        }
+    }
+`;
 
 export default ModalAuth;

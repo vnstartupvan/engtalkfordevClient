@@ -8,7 +8,7 @@ export interface IModalProps {
     handleOk: () => void;
     handleCancel: () => void;
 }
-import { useSocketContext } from 'contexts/Socket';
+import { useSocketContext } from '@libs/Socket';
 import { RoomInfoPayload } from '@libs/models/room';
 
 const ModalComponent = ({

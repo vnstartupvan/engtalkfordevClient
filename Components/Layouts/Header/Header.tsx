@@ -11,7 +11,6 @@ import {
 import ModalAuth from 'Components/ModalAuth';
 
 function HeaderComponent() {
-    
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -19,6 +18,10 @@ function HeaderComponent() {
     };
 
     const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
         setIsModalOpen(false);
     };
 
@@ -37,10 +40,9 @@ function HeaderComponent() {
                 </div>
             </MainContent>
             <ModalAuth
-                title="Login"
                 isOpen={isModalOpen}
                 handleOk={handleOk}
-                handleCancel={showModal}
+                handleCancel={handleCancel}
             />
         </Header>
     );

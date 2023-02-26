@@ -18,11 +18,11 @@ function Toolbar() {
         setIsModalOpen(true);
     };
 
-    const handleOk = (): void => {
+    const handleOk = () => {
         setIsModalOpen(false);
     };
 
-    const handleCancel = (): void => {
+    const handleCancel = () => {
         setIsModalOpen(false);
     };
 
