@@ -33,7 +33,7 @@ export const Avatar = styled.div<AvatarProps>`
     border: 1px ${(AvatarProps) => AvatarProps.borderType} black;
 `;
 
-export const Bottom = styled.button`
+export const StyledButton = styled.button`
     padding: 5px 10px;
     display: inline-block;
     background-color: #ffffff;

@@ -1,4 +1,8 @@
 export interface IUserResponse {
-    id: string;
+    _id: string;
     username: string;
+    accessToken: string;
+    password: string;
+    fullname: string;
+    email: string;
 }

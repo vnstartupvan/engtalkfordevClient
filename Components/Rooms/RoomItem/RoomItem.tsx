@@ -1,15 +1,11 @@
+import { IRoom } from '@libs/models/room';
 import React from 'react';
-import { RoomWrapper, Header, UserList, Bottom, Avatar } from './styled';
-export interface componentRoomProps {
-    room: {
-        users: object[];
-        topic: string;
-        slot: number;
-    };
+import { RoomWrapper, Header, UserList, StyledButton, Avatar } from './styled';
+export interface IComponentProps {
+    room: IRoom;
 }
-
-function RoomItem({ room }: componentRoomProps) {
-    const { topic, users } = room;
+function RoomItem({room}: IComponentProps) {
+    const { topic, users, url } = room;
     return (
         <RoomWrapper>
             <Header>
@@ -20,7 +16,9 @@ function RoomItem({ room }: componentRoomProps) {
                     <Avatar borderType="dashed" key={id} />
                 ))} */}
             </UserList>
-            <Bottom>Join and talk now!</Bottom>
+            <StyledButton>
+                <a target="_blank" href={`room/${url}`}>Join and talk now!</a>
+            </StyledButton>
         </RoomWrapper>
     );
 }

@@ -1,4 +1,5 @@
 export interface IRoom {
+    url: string;
     users: object[];
     topic: string;
     slot: number;

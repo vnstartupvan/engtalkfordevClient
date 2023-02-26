@@ -58,7 +58,10 @@ export const SocketContextReducer = (
         case ESocketContextAction.UPDATE_UID:
             return { ...state, uid: action.payload as string };
         case ESocketContextAction.UPDATE_USERS:
-            return { ...state, users: action.payload as string[] };
+            return {
+                ...state,
+                users: action.payload as string[],
+            };
         case ESocketContextAction.REMOVE_USER:
             return {
                 ...state,
@@ -97,7 +100,11 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     );
 
     const uri = 'http://localhost:3001';
-    const socket = useSocket(uri);
+    const socket = useSocket(uri, {
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+        autoConnect: false,
+    });
     useEffect(() => {
         /* Connect to web socket */
         socket.connect();
@@ -114,6 +121,24 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
             SocketDispatch({
                 type: ESocketContextAction.CREATE_ROOM,
                 payload: true,
+            });
+        });
+
+        /* Listen event disconnect in a room */
+        socket.on('user-disconnect', (userId) => {
+            console.log(`disconnected user: ${userId}`);
+            SocketDispatch({
+                type: ESocketContextAction.REMOVE_USER,
+                payload: userId,
+            });
+        });
+
+        /* Listen event new room signal */
+        socket.on('join-room', (userId) => {
+            console.log('new user has joint: ', userId);
+            SocketDispatch({
+                type: ESocketContextAction.UPDATE_USERS,
+                payload: userId,
             });
         });
         /* Reconnect event */
@@ -139,6 +164,11 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
         });
     };
 
+    const handleJoinRoom = (room: string, userId: string) => {
+        const testuser = 'user' + Math.floor(Math.random() * 100);
+        socket.emit('join-room', room, testuser);
+    };
+
     const SendCreateRoomSignal = () => {
         console.info('Sending create room singal to server ...');
         socket.emit('create-room', 'sending signal');
@@ -147,11 +177,13 @@ export const SocketProvider = ({ children }: ISockerProviderProps) => {
     interface ISocketEmitEvnets {
         SendCreateRoomSignal: () => void;
         afterHandleSignal: () => void;
+        handleJoinRoom: (room: string, userId: string) => void;
     }
 
     const SocketEmitEvents: ISocketEmitEvnets = {
         SendCreateRoomSignal,
         afterHandleSignal,
+        handleJoinRoom,
     };
 
     return (

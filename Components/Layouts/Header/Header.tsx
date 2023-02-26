@@ -9,8 +9,12 @@ import {
     UserIcon,
 } from './Header.styled';
 import ModalAuth from 'Components/ModalAuth';
+import { useSelector } from 'react-redux';
+import { RootState } from '@libs/redux/store';
 
 function HeaderComponent() {
+    const myProfile = useSelector((state: RootState) => state.auth.myProfile);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -33,9 +37,17 @@ function HeaderComponent() {
                 <div>
                     <Menu />
                     <ActionList>
-                        <UserIcon onClick={showModal}>
-                            <i className="fa fa-user"></i>
-                        </UserIcon>
+                        {!myProfile ? (
+                            <UserIcon onClick={showModal}>
+                                <i className="fa fa-user"></i>
+                            </UserIcon>
+                        ) : (
+                            <UserIcon>
+                                <i className="fa fa-user"></i>
+                                <br />
+                                {`Hi ${myProfile.fullname} !`}
+                            </UserIcon>
+                        )}
                     </ActionList>
                 </div>
             </MainContent>

@@ -20,10 +20,11 @@ export default function Home() {
         const getMyProfile = async () => {
             try {
                 const user = await getProfile();
+                console.log(user);
                 dispatch(updateProfile(user));
             } catch (error) {}
         };
-
+        console.log(123);
         getMyProfile();
     }, []);
     return (
