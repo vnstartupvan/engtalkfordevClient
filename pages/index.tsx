@@ -18,7 +18,6 @@ export default function Home() {
         const getMyProfile = async () => {
             try {
                 const user = await getProfile();
-                console.log(user);
                 dispatch(updateProfile(user));
             } catch (error) {}
         };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal } from 'antd';
 import FormModal from './FormModal/FormModal';
 import { WarningText } from './modal.styled';
@@ -10,21 +10,36 @@ export interface IModalProps {
 }
 import { useSocketContext } from '@libs/Socket';
 import { RoomInfoPayload } from '@libs/models/room';
+import {
+    initiateSocket,
+    testSocket,
+    disconnectSocket,
+    refreshRooms,
+    createRoom,
+    sendJoinRoom,
+    receiveJoinRoom,
+    userDisconnect,
+    removeListeners,
+    roomsSignal,
+} from '@libs/Socket/room-socket';
 
 const ModalComponent = ({
     isModalOpen,
     handleOk,
     handleCancel,
 }: IModalProps) => {
-    const { SocketState, SocketDispatch, SocketEmitEvents } =
-        useSocketContext();
+    // const { SocketState, SocketDispatch, SocketEmitEvents } =
+    //     useSocketContext();
 
-    console.log(SocketState);
+    // console.log(SocketState);
     const handleSubmit = async (values: RoomInfoPayload) => {
-        const room = values;
-        await handleCreateRoom(room);
-        SocketEmitEvents.SendCreateRoomSignal();
+        const room = await handleCreateRoom(values);
+        createRoom(room);
+        // SocketEmitEvents.SendCreateRoomSignal();
     };
+    useEffect(() => {
+        initiateSocket();
+    }, []);
     return (
         <>
             <Modal
