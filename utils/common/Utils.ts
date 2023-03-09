@@ -8,6 +8,16 @@ const Capitalize = (word: string) => {
     return capitalizedWord;
 };
 
+const generateNameLetter = (fullname: string) => {
+    const nameList = fullname.split(' ');
+    const nameLetter = nameList.map((name, i) => {
+        if (i > 1) return;
+        return name.charAt(0).toUpperCase();
+    });
+
+    return nameLetter.join(' ');
+};
+
 const getLastword = (sentence: string) => {
     const wordList = sentence.split(' ');
     const lastIndex = wordList.length - 1;
@@ -30,8 +40,15 @@ const getCookie = (cname: string) => {
     return '';
 };
 
+const generateRandomColor = () => {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+    return `#${randomColor}`;
+};
 export const Utils = {
     Capitalize,
     getLastword,
     getCookie,
+    generateNameLetter,
+    generateRandomColor,
 };

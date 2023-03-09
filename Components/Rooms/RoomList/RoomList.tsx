@@ -33,7 +33,7 @@ function RoomList() {
         // initiateSocket();
         roomsSignal(setRooms);
     }, []);
-
+    
     return (
         <RoomsWrapper>
             {!isLoading ? (

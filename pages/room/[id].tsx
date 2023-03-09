@@ -10,8 +10,10 @@ import { useAppDispatch, useAppSelector } from 'Hooks/UseReduxStore';
 import {
     AudioMutedOutlined,
     AudioOutlined,
+    DesktopOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import {
     initiateSocket,
     disconnectSocket,
@@ -95,14 +97,14 @@ function RoomTemplate() {
             const call = peer.call(user.peerId, stream);
             call.on('stream', (peerStream: any) => {
                 console.log(peerStream, 'call peerstream');
-                setUsersStream([...userStream, peerStream])
+                setUsersStream([...userStream, peerStream]);
             });
         });
 
-        peer.on("call", (call: any) => {
+        peer.on('call', (call: any) => {
             call.answer(stream);
-            call.on("stream", (peerStream: any) => {
-                setUsersStream([...userStream, peerStream])
+            call.on('stream', (peerStream: any) => {
+                setUsersStream([...userStream, peerStream]);
             });
         });
         //Peer's Events
@@ -114,11 +116,19 @@ function RoomTemplate() {
         //     sendLeaveRoom(roomID, myProfile);
         // };
 
+        userDisconnect((data) => {
+            console.log('user disconnected: ', data);
+            const updatedUsersStream = userStream.filter(
+                (i: string) => i !== data.peerId,
+            );
+            setUsersStream(updatedUsersStream);
+        });
+
         return () => {
             peer.disconnect();
-        }
+        };
     }, [myProfile, roomID, peerId]);
-    console.log(userStream)
+    console.log(userStream);
     return (
         <>
             <Head>
@@ -134,15 +144,32 @@ function RoomTemplate() {
                 <RoomLayoutWapper>
                     <MainContent>
                         <div className="action-list">
-                            <Button>
-                                <AudioMutedOutlined />
-                            </Button>
-                            <Button>
-                                <AudioMutedOutlined />
-                            </Button>
-                            <Button>
-                                <VideoCameraOutlined />
-                            </Button>
+                            <Tooltip
+                                placement="bottom"
+                                title="Turn on your microphone"
+                            >
+                                <Button>
+                                    <AudioMutedOutlined />
+                                </Button>
+                            </Tooltip>
+
+                            <Tooltip
+                                placement="bottom"
+                                title="Share your screen"
+                            >
+                                <Button>
+                                    <DesktopOutlined />
+                                </Button>
+                            </Tooltip>
+
+                            <Tooltip
+                                placement="bottom"
+                                title="Turn on your webcam"
+                            >
+                                <Button>
+                                    <DesktopOutlined />
+                                </Button>
+                            </Tooltip>
                         </div>
                         <div className="room-screen">
                             <Avatar
@@ -157,7 +184,7 @@ function RoomTemplate() {
                             </Avatar>
                             <VideoPlayer stream={stream} />
                             {userStream.map((video: MediaStream) => {
-                                return <VideoPlayer stream={video}/>
+                                return <VideoPlayer stream={video} />;
                             })}
                         </div>
                         <div className="user-list">

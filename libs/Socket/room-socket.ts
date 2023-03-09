@@ -68,7 +68,7 @@ export const newUserConnect = (cb: (user: IUserResponse) => void) => {
     if(ws) ws.on('new-user-connect', cb)
 }
 
-export const userDisconnect = (cb: () => void) => {
+export const userDisconnect = (cb: (data: any) => void) => {
     if (ws) ws.on('user-disconnect', cb);
 };
 

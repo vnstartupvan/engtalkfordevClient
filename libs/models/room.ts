@@ -1,6 +1,7 @@
+import { IUserResponse } from './user';
 export interface IRoom {
     url: string;
-    users: string[];
+    users: IUserResponse[];
     slot: number;
     userLimit: number;
     topic: string;
