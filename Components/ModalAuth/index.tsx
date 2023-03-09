@@ -27,7 +27,7 @@ const ModalAuth: React.FC<IModalAuthProps> = ({
             setAuthForm('login');
         }
     };
-    
+
     return (
         <ModalAuthContainer
             title={Utils.Capitalize(authForm)}
@@ -35,6 +35,7 @@ const ModalAuth: React.FC<IModalAuthProps> = ({
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
+            okButtonProps={{ style: { display: 'none' } }}
         >
             <div style={{ textAlign: 'left', marginBottom: '15px' }}>
                 <StyledButton onClick={handleSwitchBtn}>

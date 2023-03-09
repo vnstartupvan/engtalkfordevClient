@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Modal } from 'antd';
 import FormModal from './FormModal/FormModal';
 import { WarningText } from './modal.styled';
@@ -8,44 +8,25 @@ export interface IModalProps {
     handleOk: () => void;
     handleCancel: () => void;
 }
-import { useSocketContext } from '@libs/Socket';
 import { RoomInfoPayload } from '@libs/models/room';
-import {
-    initiateSocket,
-    testSocket,
-    disconnectSocket,
-    refreshRooms,
-    createRoom,
-    sendJoinRoom,
-    receiveJoinRoom,
-    userDisconnect,
-    removeListeners,
-    roomsSignal,
-} from '@libs/Socket/room-socket';
+import { createRoom } from '@libs/Socket/room-socket';
 
 const ModalComponent = ({
     isModalOpen,
     handleOk,
     handleCancel,
 }: IModalProps) => {
-    // const { SocketState, SocketDispatch, SocketEmitEvents } =
-    //     useSocketContext();
-
-    // console.log(SocketState);
     const handleSubmit = async (values: RoomInfoPayload) => {
         const room = await handleCreateRoom(values);
         createRoom(room);
-        // SocketEmitEvents.SendCreateRoomSignal();
     };
-    useEffect(() => {
-        initiateSocket();
-    }, []);
     return (
         <>
             <Modal
                 title="Create your room"
                 open={isModalOpen}
                 okButtonProps={{ style: { display: 'none' } }}
+                cancelButtonProps={{ style: { display: 'none' } }}
                 onCancel={handleCancel}
             >
                 <WarningText>

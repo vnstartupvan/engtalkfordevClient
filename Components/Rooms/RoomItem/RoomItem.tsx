@@ -1,23 +1,22 @@
 import { IRoom } from '@libs/models/room';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { RoomWrapper, Header, UserList, StyledButton, Avatar } from './styled';
 import { RootState } from 'libs/redux/store';
-import AppLogo from 'Components/Commons/AppLogo';
 import {
     SettingOutlined,
     PhoneOutlined,
     StopOutlined,
 } from '@ant-design/icons';
-import { IUserResponse } from '@libs/models/user';
 import { Utils } from '@utils/common/Utils';
 
 export interface IComponentProps {
     room: IRoom;
 }
+
 const RoomItem: React.FC<IComponentProps> = ({ room }) => {
     const myProfile = useSelector((state: RootState) => state.auth.myProfile);
     const { topic, users, url, language, level, userLimit } = room;
+    const available = users.length >= userLimit ? true : false;
 
     const handleJoinRoom = () => {
         if (!myProfile) {
@@ -28,7 +27,8 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
     };
 
     const renderAvailableSlots = () => {
-        const availableSlots = userLimit - users.length;
+        const availableSlots =
+            userLimit - users.length > 0 ? userLimit - users.length : 0;
 
         const content = Array(availableSlots)
             .fill(0)
@@ -43,6 +43,7 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
             });
         return content;
     };
+
     return (
         <RoomWrapper>
             <Header>
@@ -74,10 +75,13 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
             </UserList>
             <StyledButton
                 onClick={handleJoinRoom}
-                color={!myProfile ? '#ccc' : 'rgb(47, 148, 233)'}
+                disabled={available}
+                color={!myProfile || available ? '#ccc' : 'rgb(47, 148, 233)'}
             >
                 {!myProfile ? <StopOutlined /> : <PhoneOutlined />}
-                <span> Join and talk now!</span>
+                <span>
+                    {available ? 'This room is full' : 'Join and talk now!'}
+                </span>
             </StyledButton>
         </RoomWrapper>
     );

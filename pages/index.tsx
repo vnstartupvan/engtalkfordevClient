@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import React from 'react';
 // import { Inter } from '@next/font/google';
 import DefaultLayout from 'Layouts/DefaultLayout/DefaultLayout';
 import Toolbar from 'Components/Toolbar/Toolbar';

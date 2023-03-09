@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import DefaultLayout from 'Layouts/DefaultLayout/DefaultLayout';
 import styled from 'styled-components';
@@ -8,50 +8,29 @@ import { getProfile } from '@libs/api/user';
 import { updateProfile } from '@libs/redux/reducers/AuthReducer';
 import { useAppDispatch, useAppSelector } from 'Hooks/UseReduxStore';
 import {
-    AudioMutedOutlined,
-    AudioOutlined,
-    DesktopOutlined,
-    VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Tooltip } from 'antd';
-import {
-    initiateSocket,
-    disconnectSocket,
-    refreshRooms,
-    createRoom,
     sendJoinRoom,
-    sendLeaveRoom,
     receiveJoinRoom,
     newUserConnect,
-    sendPeerId,
-    onPeerId,
-    ReceiveVideo,
-    sendVideo,
     userDisconnect,
-    removeListeners,
-    roomsSignal,
 } from '@libs/Socket/room-socket';
 
-import { IRoom } from '@libs/models/room';
-import { Avatar, Button } from 'antd';
 import { IUserResponse } from '@libs/models/user';
 import UsePeer from 'Hooks/UsePeer';
-import VideoPlayer from 'Components/Room/VideoPlayer';
+import UserList from 'Components/Room/User/UserList';
+import Screen from 'Components/Room/Screen/Screen';
+import ActionList from 'Components/Room/ActionList';
+
 function RoomTemplate() {
     const myProfile = useAppSelector((state) => state.auth.myProfile);
     const Router = useRouter();
     const roomID = Router.query.id;
-    const [room, setRoom] = useState<IRoom | null>(null);
     const dispatch = useAppDispatch();
     const [users, setUsers] = useState<IUserResponse[]>([]);
-    const refVideo = useRef({});
-    const refPartnerVideo = useRef({});
     const peer = UsePeer(myProfile);
     const [peerId, setPeerId] = useState<string | null>(null);
     const [stream, setStream] = useState<MediaStream>();
     const [userStream, setUsersStream] = useState<any>([]);
-    // const [stream, setStream] = useState<any>(null);
-    //Authentication + handle hydration nextjs
+
     useEffect(() => {
         const getMyProfile = async () => {
             try {
@@ -85,7 +64,6 @@ function RoomTemplate() {
     useEffect(() => {
         if (!myProfile || !roomID || !peerId || !stream) return;
 
-        // initiateSocket();
         sendJoinRoom(roomID, myProfile, peerId);
         receiveJoinRoom((users) => {
             console.log(`a user has conntected: `, users);
@@ -107,14 +85,6 @@ function RoomTemplate() {
                 setUsersStream([...userStream, peerStream]);
             });
         });
-        //Peer's Events
-
-        // function addVideoStream(video, stream) {
-        //     video.srcObject = stream;
-        // }
-        // return () => {
-        //     sendLeaveRoom(roomID, myProfile);
-        // };
 
         userDisconnect((data) => {
             console.log('user disconnected: ', data);
@@ -128,7 +98,7 @@ function RoomTemplate() {
             peer.disconnect();
         };
     }, [myProfile, roomID, peerId]);
-    console.log(userStream);
+
     return (
         <>
             <Head>
@@ -143,66 +113,9 @@ function RoomTemplate() {
             <DefaultLayout>
                 <RoomLayoutWapper>
                     <MainContent>
-                        <div className="action-list">
-                            <Tooltip
-                                placement="bottom"
-                                title="Turn on your microphone"
-                            >
-                                <Button>
-                                    <AudioMutedOutlined />
-                                </Button>
-                            </Tooltip>
-
-                            <Tooltip
-                                placement="bottom"
-                                title="Share your screen"
-                            >
-                                <Button>
-                                    <DesktopOutlined />
-                                </Button>
-                            </Tooltip>
-
-                            <Tooltip
-                                placement="bottom"
-                                title="Turn on your webcam"
-                            >
-                                <Button>
-                                    <DesktopOutlined />
-                                </Button>
-                            </Tooltip>
-                        </div>
-                        <div className="room-screen">
-                            <Avatar
-                                size={200}
-                                style={{
-                                    backgroundColor: '#fde3cf',
-                                    color: '#f56a00',
-                                    border: '2px solid black',
-                                }}
-                            >
-                                <p style={{ fontSize: '120px' }}>V</p>
-                            </Avatar>
-                            <VideoPlayer stream={stream} />
-                            {userStream.map((video: MediaStream) => {
-                                return <VideoPlayer stream={video} />;
-                            })}
-                        </div>
-                        <div className="user-list">
-                            {users.map((user, index) => {
-                                return (
-                                    <Button
-                                        style={{
-                                            backgroundColor: '#fde3cf',
-                                            color: '#f56a00',
-                                            border: '2px solid black',
-                                        }}
-                                        key={user.fullname}
-                                    >
-                                        {user.fullname.charAt(0)}
-                                    </Button>
-                                );
-                            })}
-                        </div>
+                        <ActionList />
+                        <Screen stream={stream} userStream={userStream} />
+                        <UserList users={users} />
                     </MainContent>
                     <SideBar>
                         <ChatBar />
@@ -227,21 +140,6 @@ const MainContent = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-    & > .action-list {
-        background: green;
-        width: 100%;
-        height: 20%;
-    }
-    & > .room-screen {
-        background: pink;
-        width: 100%;
-        height: 60%;
-    }
-    & > .user-list {
-        background: blue;
-        width: 100%;
-        height: 20%;
     }
 `;
 

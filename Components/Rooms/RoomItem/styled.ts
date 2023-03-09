@@ -17,6 +17,10 @@ export const RoomWrapper = styled.div`
     margin-bottom: 15px;
     text-align: center;
     margin-right: 10px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 export const Header = styled.div`
