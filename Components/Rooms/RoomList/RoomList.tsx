@@ -3,43 +3,28 @@ import RoomItem from '../RoomItem/RoomItem';
 import { RoomsWrapper } from './styled';
 import { fetchRoomList } from '@libs/api/room';
 import { IRoom } from 'libs/models/room';
-import { useSocketContext } from '@libs/Socket';
 import { StyledSpin } from 'overides/overrides';
+import { roomsSignal } from '@libs/Socket/room-socket';
 
 function RoomList() {
     const [rooms, setRooms] = useState<IRoom[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(false);
-    const {
-        SocketState: { newRoomSignal },
-        SocketDispatch,
-        SocketEmitEvents,
-    } = useSocketContext();
-    console.log(newRoomSignal);
 
-    const handleGetRoomList = async () => {
-        setIsLoading(true);
-        try {
-            const roomList = await fetchRoomList();
-            console.log(roomList);
-            setRooms(roomList);
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
-        }
-    };
-
-    console.info('Re-render Room List: ', newRoomSignal);
+    // const handleGetRoomList = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const roomList = await fetchRoomList();
+    //         console.log(roomList);
+    //         setRooms(roomList);
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         setIsLoading(false);
+    //     }
+    // };
     useEffect(() => {
-        if (newRoomSignal) {
-            handleGetRoomList();
-            SocketEmitEvents.afterHandleSignal();
-        }
-    }, [newRoomSignal]);
-
-    useEffect(() => {
-        handleGetRoomList();
+        roomsSignal(setRooms);
     }, []);
-    console.log(rooms);
+
     return (
         <RoomsWrapper>
             {!isLoading ? (

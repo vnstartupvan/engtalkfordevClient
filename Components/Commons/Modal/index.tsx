@@ -8,22 +8,17 @@ export interface IModalProps {
     handleOk: () => void;
     handleCancel: () => void;
 }
-import { useSocketContext } from '@libs/Socket';
 import { RoomInfoPayload } from '@libs/models/room';
+import { createRoom } from '@libs/Socket/room-socket';
 
 const ModalComponent = ({
     isModalOpen,
     handleOk,
     handleCancel,
 }: IModalProps) => {
-    const { SocketState, SocketDispatch, SocketEmitEvents } =
-        useSocketContext();
-
-    console.log(SocketState);
     const handleSubmit = async (values: RoomInfoPayload) => {
-        const room = values;
-        await handleCreateRoom(room);
-        SocketEmitEvents.SendCreateRoomSignal();
+        const room = await handleCreateRoom(values);
+        createRoom(room);
     };
     return (
         <>
@@ -31,6 +26,7 @@ const ModalComponent = ({
                 title="Create your room"
                 open={isModalOpen}
                 okButtonProps={{ style: { display: 'none' } }}
+                cancelButtonProps={{ style: { display: 'none' } }}
                 onCancel={handleCancel}
             >
                 <WarningText>

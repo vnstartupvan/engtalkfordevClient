@@ -14,4 +14,7 @@ export const Policy = styled.div``;
 export const JoinFb = styled.div``;
 export const BtnText = styled.span`
     margin-left: 5px;
+    &&& > a{
+        color: white;
+    }
 `;

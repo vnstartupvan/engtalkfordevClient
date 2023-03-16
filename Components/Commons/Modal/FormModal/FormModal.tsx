@@ -68,7 +68,7 @@ const FormModal = ({ handleAfterSubmit, handleSubmit }: IFormModalProps) => {
                     label="Topic"
                     style={{ display: 'inline-block', width: 'calc(60%)' }}
                     required
-                    initialValue="any"
+                    initialValue=""
                 >
                     <Input placeholder="Any Topic" />
                 </Form.Item>

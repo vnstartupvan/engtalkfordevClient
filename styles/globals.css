@@ -89,6 +89,7 @@ video {
     font: inherit;
     vertical-align: baseline;
     text-decoration: none;
+    box-sizing: border-box;
 }
 
 /* make sure to set some focus styles for accessibility */

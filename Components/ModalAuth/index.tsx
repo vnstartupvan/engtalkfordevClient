@@ -4,14 +4,22 @@ import LoginForm from 'Components/LoginForm';
 import RegisterForm from 'Components/RegisterForm';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 interface IModalAuthProps {
     isOpen: boolean;
     handleOk: () => void;
     handleCancel: () => void;
 }
-function ModalAuth({ isOpen, handleOk, handleCancel }: IModalAuthProps) {
-    type AuthFormType = 'login' | 'register';
+
+type AuthFormType = 'login' | 'register';
+
+const ModalAuth: React.FC<IModalAuthProps> = ({
+    isOpen,
+    handleOk,
+    handleCancel,
+}) => {
     const [authForm, setAuthForm] = useState<AuthFormType>('login');
+
     const handleSwitchBtn = () => {
         if (authForm === 'login') {
             setAuthForm('register');
@@ -19,6 +27,7 @@ function ModalAuth({ isOpen, handleOk, handleCancel }: IModalAuthProps) {
             setAuthForm('login');
         }
     };
+
     return (
         <ModalAuthContainer
             title={Utils.Capitalize(authForm)}
@@ -26,6 +35,7 @@ function ModalAuth({ isOpen, handleOk, handleCancel }: IModalAuthProps) {
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
+            okButtonProps={{ style: { display: 'none' } }}
         >
             <div style={{ textAlign: 'left', marginBottom: '15px' }}>
                 <StyledButton onClick={handleSwitchBtn}>
@@ -41,7 +51,7 @@ function ModalAuth({ isOpen, handleOk, handleCancel }: IModalAuthProps) {
             )}
         </ModalAuthContainer>
     );
-}
+};
 
 const ModalAuthContainer = styled(Modal)``;
 

@@ -1,7 +1,13 @@
+import { IUserResponse } from './user';
 export interface IRoom {
-    users: object[];
-    topic: string;
+    url: string;
+    users: IUserResponse[];
     slot: number;
+    userLimit: number;
+    topic: string;
+    language: string;
+    level: string;
+    groupAdmin: string;
 }
 
 export interface RoomItemPayload {

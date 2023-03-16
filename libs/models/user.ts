@@ -1,4 +1,11 @@
 export interface IUserResponse {
-    id: string;
+    _id: string;
+    peerId: string | undefined;
+    pic: string;
     username: string;
+    accessToken: string;
+    password: string;
+    fullname: string;
+    email: string;
+    mediaStream: any;
 }
