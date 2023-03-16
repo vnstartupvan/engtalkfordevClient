@@ -2,11 +2,14 @@ import { Button } from 'antd';
 
 export interface IUserProps {
     fullname: string;
+    stream: any;
+    cb: any;
 }
 
-const User = ({ fullname }: IUserProps) => {
+const User = ({ fullname, stream, cb }: IUserProps) => {
     return (
         <Button
+        onClick={()=> {cb(stream)}}
             style={{
                 backgroundColor: '#fde3cf',
                 color: '#f56a00',

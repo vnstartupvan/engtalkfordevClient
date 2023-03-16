@@ -19,8 +19,7 @@ function DefaultLayout({ children }: PropsType) {
     )
 }
 const LayoutWrapper = styled.div`
-    max-width: 1280px;
-    margin: 0 auto;
+    
 `;
 const Template = styled.main`
     min-height: calc(100vh - 30px);

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 export interface IVideoPlayerProps {
     stream?: MediaStream;
 }
@@ -6,18 +7,23 @@ function VideoPlayer({ stream }: IVideoPlayerProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        if (videoRef.current && stream) videoRef.current.srcObject = stream;
+        if (videoRef.current && stream) {
+            videoRef.current.srcObject = stream;
+        } else if (videoRef.current && !stream)
+            videoRef.current.srcObject = null;
     }, [stream]);
 
     return (
-        <video
+        <StyledVideo
             className="room__video-container--user-video"
             ref={videoRef}
-            style={{ width: '200px' }}
             autoPlay
             muted={true}
-        ></video>
+        ></StyledVideo>
     );
 }
 
+const StyledVideo = styled.video`
+    width: 100%;
+`;
 export default VideoPlayer;

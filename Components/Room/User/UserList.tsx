@@ -4,13 +4,22 @@ import User from './User';
 
 export interface IUserListProps {
     users: IUserResponse[];
+    cb: any;
 }
 
-function UserList({ users }: IUserListProps) {
+function UserList({ users, cb }: IUserListProps) {
+    console.log(users);
     return (
         <StyledUserList>
             {users.map((user) => {
-                return <User key={user._id} fullname={user.fullname} />;
+                return (
+                    <User
+                        key={user._id}
+                        fullname={user.fullname}
+                        stream={user.mediaStream}
+                        cb={cb}
+                    />
+                );
             })}
         </StyledUserList>
     );

@@ -5,24 +5,29 @@ import styled from 'styled-components';
 export interface IScreenProps {
     stream: MediaStream | undefined;
     userStream: any[];
+    activeScreen: MediaStream | undefined;
 }
-function Screen({ stream, userStream }: IScreenProps) {
+function Screen({ stream, userStream, activeScreen }: IScreenProps) {
+    console.log('active screen: ', activeScreen);
     return (
         <StyledScreen>
-            <Avatar
-                size={200}
-                style={{
-                    backgroundColor: '#fde3cf',
-                    color: '#f56a00',
-                    border: '2px solid black',
-                }}
-            >
-                <p style={{ fontSize: '120px' }}>V</p>
-            </Avatar>
-            <VideoPlayer stream={stream} />
-            {userStream.map((video: MediaStream, index) => {
+            {activeScreen ? (
+                <VideoPlayer stream={activeScreen} />
+            ) : (
+                <Avatar
+                    size={200}
+                    style={{
+                        backgroundColor: '#fde3cf',
+                        color: '#f56a00',
+                        border: '2px solid black',
+                    }}
+                >
+                    <p style={{ fontSize: '120px' }}>V</p>
+                </Avatar>
+            )}
+            {/* {userStream.map((video: MediaStream, index) => {
                 return <VideoPlayer key={index} stream={video} />;
-            })}
+            })} */}
         </StyledScreen>
     );
 }

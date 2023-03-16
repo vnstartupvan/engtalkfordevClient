@@ -12,6 +12,7 @@ import {
     receiveJoinRoom,
     newUserConnect,
     userDisconnect,
+    receiveNewPeers,
 } from '@libs/Socket/room-socket';
 
 import { IUserResponse } from '@libs/models/user';
@@ -22,25 +23,42 @@ import ActionList from 'Components/Room/ActionList';
 
 function RoomTemplate() {
     const myProfile = useAppSelector((state) => state.auth.myProfile);
-    const Router = useRouter();
-    const roomID = Router.query.id;
     const dispatch = useAppDispatch();
-    const [users, setUsers] = useState<IUserResponse[]>([]);
+    const Router = useRouter();
     const peer = UsePeer(myProfile);
+
+    const roomID = Router.query.id;
+    const [users, setUsers] = useState<IUserResponse[]>([]);
     const [peerId, setPeerId] = useState<string | null>(null);
     const [stream, setStream] = useState<MediaStream>();
+    const [activeStream, setActiveStream] = useState<MediaStream>();
     const [userStream, setUsersStream] = useState<any>([]);
 
     useEffect(() => {
+        if (!roomID) return;
         const getMyProfile = async () => {
             try {
-                const user = await getProfile();
+                const user: IUserResponse = await getProfile();
                 dispatch(updateProfile(user));
+                //Get my stream
+                try {
+                    navigator.mediaDevices
+                        .getUserMedia({ video: true, audio: true })
+                        .then((stream: MediaStream) => {
+                            setUsers([
+                                ...users,
+                                { ...user, mediaStream: stream },
+                            ]);
+                            setStream(stream);
+                        });
+                } catch (error) {
+                    console.error(error);
+                }
             } catch (error) {}
         };
 
         if (!myProfile) getMyProfile();
-    }, []);
+    }, [roomID]);
 
     //Peer
     useEffect(() => {
@@ -48,16 +66,6 @@ function RoomTemplate() {
         peer.on('open', (id: any) => {
             setPeerId(id);
         });
-        //Get my stream
-        try {
-            navigator.mediaDevices
-                .getUserMedia({ video: true, audio: true })
-                .then((stream: MediaStream) => {
-                    setStream(stream);
-                });
-        } catch (error) {
-            console.error(error);
-        }
     }, [peer]);
 
     //Socket
@@ -72,9 +80,12 @@ function RoomTemplate() {
 
         newUserConnect((user) => {
             console.log('new user: ', user);
+
             const call = peer.call(user.peerId, stream);
             call.on('stream', (peerStream: any) => {
-                console.log(peerStream, 'call peerstream');
+                // setUsers(updatedUsers);
+                // console.log(users, updatedUsers, 'call peerstream');
+                setUsers([...users, { ...user, mediaStream: peerStream }]);
                 setUsersStream([...userStream, peerStream]);
             });
         });
@@ -98,7 +109,16 @@ function RoomTemplate() {
             peer.disconnect();
         };
     }, [myProfile, roomID, peerId]);
+    console.log('user: ', users);
 
+    const handleWatchVideo = (stream: MediaStream) => {
+        if (activeStream) {
+            setActiveStream(undefined);
+            return;
+        }
+        console.log('active: ', stream);
+        setActiveStream(stream);
+    };
     return (
         <>
             <Head>
@@ -114,11 +134,15 @@ function RoomTemplate() {
                 <RoomLayoutWapper>
                     <MainContent>
                         <ActionList />
-                        <Screen stream={stream} userStream={userStream} />
-                        <UserList users={users} />
+                        <Screen
+                            stream={stream}
+                            userStream={userStream}
+                            activeScreen={activeStream}
+                        />
+                        <UserList users={users} cb={handleWatchVideo} />
                     </MainContent>
                     <SideBar>
-                        <ChatBar />
+                        <ChatBar room={roomID} user={myProfile} />
                     </SideBar>
                 </RoomLayoutWapper>
             </DefaultLayout>

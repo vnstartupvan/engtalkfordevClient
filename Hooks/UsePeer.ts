@@ -7,7 +7,7 @@ function UsePeer(myProfile: IUserResponse | null) {
         if (!myProfile) return;
         import('peerjs').then(({ default: Peer }) => {
             // normal synchronous code
-            const myPeer = new Peer();
+            const myPeer = new Peer(myProfile._id);
             setPeer(myPeer);
         });
     }, [myProfile]);

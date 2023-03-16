@@ -1,9 +1,7 @@
 import Head from 'next/head';
-// import { Inter } from '@next/font/google';
 import DefaultLayout from 'Layouts/DefaultLayout/DefaultLayout';
 import Toolbar from 'Components/Toolbar/Toolbar';
 import RoomList from 'Components/Rooms/RoomList/RoomList';
-// const inter = Inter({ subsets: ['latin'] });
 import { useEffect } from 'react';
 import { getProfile } from '@libs/api/user';
 import { updateProfile } from '@libs/redux/reducers/AuthReducer';

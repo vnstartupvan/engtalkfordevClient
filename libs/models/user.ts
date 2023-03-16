@@ -7,4 +7,5 @@ export interface IUserResponse {
     password: string;
     fullname: string;
     email: string;
+    mediaStream: any;
 }

@@ -4,16 +4,8 @@ import { RoomsWrapper } from './styled';
 import { fetchRoomList } from '@libs/api/room';
 import { IRoom } from 'libs/models/room';
 import { StyledSpin } from 'overides/overrides';
-import {
-    initiateSocket,
-    roomsSignal,
-    disconnectSocket,
-    refreshRooms,
-    createRoom,
-    sendJoinRoom,
-    userDisconnect,
-    removeListeners,
-} from '@libs/Socket/room-socket';
+import { roomsSignal } from '@libs/Socket/room-socket';
+
 function RoomList() {
     const [rooms, setRooms] = useState<IRoom[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -30,10 +22,9 @@ function RoomList() {
     //     }
     // };
     useEffect(() => {
-        // initiateSocket();
         roomsSignal(setRooms);
     }, []);
-    
+
     return (
         <RoomsWrapper>
             {!isLoading ? (
