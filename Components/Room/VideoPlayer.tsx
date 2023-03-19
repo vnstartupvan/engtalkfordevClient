@@ -24,6 +24,6 @@ function VideoPlayer({ stream }: IVideoPlayerProps) {
 }
 
 const StyledVideo = styled.video`
-    width: 100%;
+    width: 500px;
 `;
 export default VideoPlayer;
