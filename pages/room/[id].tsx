@@ -74,17 +74,12 @@ function RoomTemplate() {
 
         sendJoinRoom(roomID, myProfile, peerId);
         receiveJoinRoom((users) => {
-            console.log(`a user has conntected: `, users);
             setUsers(users);
         });
 
         newUserConnect((user) => {
-            console.log('new user: ', user);
-
             const call = peer.call(user.peerId, stream);
             call.on('stream', (peerStream: any) => {
-                // setUsers(updatedUsers);
-                // console.log(users, updatedUsers, 'call peerstream');
                 setUsers([...users, { ...user, mediaStream: peerStream }]);
                 setUsersStream([...userStream, peerStream]);
             });
@@ -98,7 +93,6 @@ function RoomTemplate() {
         });
 
         userDisconnect((data) => {
-            console.log('user disconnected: ', data);
             const updatedUsersStream = userStream.filter(
                 (i: string) => i !== data.peerId,
             );
@@ -109,14 +103,12 @@ function RoomTemplate() {
             peer.disconnect();
         };
     }, [myProfile, roomID, peerId]);
-    console.log('user: ', users);
 
     const handleWatchVideo = (stream: MediaStream) => {
         if (activeStream) {
             setActiveStream(undefined);
             return;
         }
-        console.log('active: ', stream);
         setActiveStream(stream);
     };
     return (
@@ -160,10 +152,12 @@ const MainContent = styled.div`
     display: flex;
     height: 100vh;
     flex-direction: column;
+    border-right: 1px solid #ccc;
     & > div {
         display: flex;
         justify-content: center;
         align-items: center;
+        border-bottom: 1px solid #ccc;
     }
 `;
 

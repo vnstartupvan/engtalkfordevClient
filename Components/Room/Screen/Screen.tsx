@@ -8,7 +8,6 @@ export interface IScreenProps {
     activeScreen: MediaStream | undefined;
 }
 function Screen({ stream, userStream, activeScreen }: IScreenProps) {
-    console.log('active screen: ', activeScreen);
     return (
         <StyledScreen>
             {activeScreen ? (
@@ -33,9 +32,9 @@ function Screen({ stream, userStream, activeScreen }: IScreenProps) {
 }
 
 const StyledScreen = styled.div`
-    background: pink;
     width: 100%;
     height: 60%;
+    overflow: hidden;
 `;
 
 export default Screen;

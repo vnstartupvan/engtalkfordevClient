@@ -8,7 +8,6 @@ export interface IUserListProps {
 }
 
 function UserList({ users, cb }: IUserListProps) {
-    console.log(users);
     return (
         <StyledUserList>
             {users.map((user) => {
@@ -26,7 +25,6 @@ function UserList({ users, cb }: IUserListProps) {
 }
 
 const StyledUserList = styled.div`
-    background: blue;
     width: 100%;
     height: 20%;
 `;

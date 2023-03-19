@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { SendOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
-import { ReceiveMsg, sendMsg } from '@libs/Socket/room-socket';
+import { ReceiveMsg, sendMsg, joinChat } from '@libs/Socket/room-socket';
 import { IUserResponse } from '@libs/models/user';
 
 const { TextArea } = Input;
@@ -32,18 +32,25 @@ export default function ChatBar({
     };
 
     useEffect(() => {
+        if (!room) return;
+        joinChat(room);
+    }, [room]);
+
+    useEffect(() => {
+        if (!room) return;
         const handleReceiveMsg = (user: IUserResponse, msg: string) => {
             const newMsg = {
                 userName: user.fullname,
                 msg,
             };
-
+            console.log('receive msg');
+            console.log(messages);
             setMessages([...messages, newMsg]);
         };
 
         ReceiveMsg(handleReceiveMsg);
-    }, []);
-    console.log(messages);
+    }, [room, messages]);
+
     const renderMsgs = () => {
         if (messages.length <= 0) return;
         return messages.map((m, index) => {
@@ -59,50 +66,58 @@ export default function ChatBar({
 
     return (
         <ChatBarWapper>
-            <div className="action-list"></div>
             <div className="message-box">{renderMsgs()}</div>
             <div className="chatbox">
-                <div className="chatbox__actions"></div>
-                <TextArea
-                    ref={chatInputRef}
-                    className="chatbox__input"
-                    rows={1}
-                    placeholder="send message..."
-                />
-                <Button onClick={() => handleSendMsg(room, user)}>
-                    <SendOutlined />
-                </Button>
+                <div className="chatbox-wrapper">
+                    <TextArea
+                        ref={chatInputRef}
+                        className="chatbox__input"
+                        rows={1}
+                        placeholder="send message..."
+                    />
+                    <Button
+                        style={{
+                            height: '100%',
+                            borderRadius: 0,
+                            borderTopRightRadius: '5px',
+                            borderBottomRightRadius: '5px',
+                        }}
+                        onClick={() => handleSendMsg(room, user)}
+                    >
+                        <SendOutlined />
+                    </Button>
+                </div>
             </div>
         </ChatBarWapper>
     );
 }
 
 const ChatBarWapper = styled.div`
-    width: 100%;
     height: 100%;
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-    & > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid black;
-        border-top: none;
+    padding: 0 5px;
+    & .message-box {
+        height: 80%;
+        font-size: 20px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
-    & > .action-list {
-        width: 100%;
+    & .chatbox {
         height: 20%;
-    }
-    & > .message-box {
-        width: 100%;
-        height: 60%;
-    }
-    & > .chatbox {
-        width: 100%;
-        height: 20%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        & .chatbox-wrapper {
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+        }
+        & textarea {
+            border-radius: 0;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+        && button {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
     }
 `;
