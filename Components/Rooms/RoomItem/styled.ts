@@ -11,7 +11,6 @@ interface ButtonProps {
 
 
 export const RoomWrapper = styled.div`
-    border: 1px solid #000;
     width: 30%;
     padding: 15px 10px;
     margin-bottom: 15px;
@@ -21,6 +20,8 @@ export const RoomWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    border-radius: 10px;
 `;
 
 export const Header = styled.div`

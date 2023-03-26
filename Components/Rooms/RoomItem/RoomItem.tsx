@@ -8,6 +8,8 @@ import {
     StopOutlined,
 } from '@ant-design/icons';
 import { Utils } from '@utils/common/Utils';
+import { message, Tooltip } from 'antd';
+import Settings from '@components/Rooms/RoomItem/Setting';
 
 export interface IComponentProps {
     room: IRoom;
@@ -17,12 +19,14 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
     const myProfile = useSelector((state: RootState) => state.auth.myProfile);
     const { topic, users, url, language, level, userLimit } = room;
     const available = users.length >= userLimit ? true : false;
+    const [messageApi, contextHolder] = message.useMessage();
 
     const handleJoinRoom = () => {
         if (!myProfile) {
-            alert('Please Log in to join our community!');
+            messageApi.info('Please log in to join our community!');
             return;
         }
+
         window.open(`http://localhost:3000/room/${url}`);
     };
 
@@ -58,7 +62,9 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
                 </div>
 
                 <div className="right">
-                    <SettingOutlined />
+                    <Tooltip placement="bottom" title={<Settings />}>
+                        <SettingOutlined />
+                    </Tooltip>
                 </div>
             </Header>
             <UserList>
@@ -78,6 +84,7 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
                 disabled={available}
                 color={!myProfile || available ? '#ccc' : 'rgb(47, 148, 233)'}
             >
+                {contextHolder}
                 {!myProfile ? <StopOutlined /> : <PhoneOutlined />}
                 <span>
                     {available ? 'This room is full' : 'Join and talk now!'}

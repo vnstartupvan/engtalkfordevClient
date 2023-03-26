@@ -21,10 +21,13 @@ export const appReducer = createSlice({
             console.log(`Update profile`);
             state.myProfile = action.payload;
         },
+        logOut: (state) => {
+            state.myProfile = null;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateProfile } = appReducer.actions;
+export const { updateProfile, logOut } = appReducer.actions;
 
 export default appReducer.reducer;

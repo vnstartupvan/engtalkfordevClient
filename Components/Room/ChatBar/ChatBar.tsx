@@ -56,7 +56,7 @@ export default function ChatBar({
         return messages.map((m, index) => {
             return (
                 <div key={index}>
-                    <p>
+                    <p style={{ paddingBottom: '5px' }}>
                         {m.userName}: {m.msg}
                     </p>
                 </div>
@@ -97,14 +97,22 @@ const ChatBarWapper = styled.div`
     padding: 0 5px;
     & .message-box {
         height: 80%;
-        font-size: 20px;
+        font-size: 19px;
         overflow-y: scroll;
+        padding: 15px;
+        background: #fff;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+            rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         &::-webkit-scrollbar {
             display: none;
         }
     }
     & .chatbox {
         height: 20%;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+            rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         & .chatbox-wrapper {
             display: flex;
             align-items: stretch;

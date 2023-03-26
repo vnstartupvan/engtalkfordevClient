@@ -25,5 +25,8 @@ function VideoPlayer({ stream }: IVideoPlayerProps) {
 
 const StyledVideo = styled.video`
     width: 500px;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.16),
+        0 4px 6px rgba(0, 0, 0, 0.45);
+    border-radius: 10px;
 `;
 export default VideoPlayer;

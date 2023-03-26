@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@libs/redux/store';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Utils } from '@utils/common/Utils';
-
+import { Tooltip } from 'antd';
+import LogoutButton from './LogoutButton';
 function ActionList() {
     const myProfile = useSelector((state: RootState) => state.auth.myProfile);
 
@@ -30,18 +31,20 @@ function ActionList() {
                         <i className="fa fa-user"></i>
                     </UserIcon>
                 ) : (
-                    <AuthAction>
-                        <i
-                            style={{
-                                borderRadius: '50%',
-                                padding: '10px',
-                                backgroundColor: ' #b3d4fc',
-                            }}
-                            className="fa fa-user"
-                        ></i>
-                        <span>{Utils.getLastword(myProfile.fullname)}</span>
-                        <CaretDownOutlined />
-                    </AuthAction>
+                    <Tooltip color={'#fff'} title={<LogoutButton />}>
+                        <AuthAction>
+                            <i
+                                style={{
+                                    borderRadius: '50%',
+                                    padding: '10px',
+                                    backgroundColor: ' #b3d4fc',
+                                }}
+                                className="fa fa-user"
+                            ></i>
+                            <span>{Utils.getLastword(myProfile.fullname)}</span>
+                            <CaretDownOutlined />
+                        </AuthAction>
+                    </Tooltip>
                 )}
             </StyledActionList>
             <ModalAuth

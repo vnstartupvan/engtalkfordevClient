@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const ToolbarWrapper = styled.div`
-    width: 100%;
-    margin: 15px 0;
+    margin: 15px 10px;
     & > div {
         display: inline-block;
         margin-right: 10px;

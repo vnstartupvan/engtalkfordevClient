@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Space } from 'antd';
+import { Button, message, Space } from 'antd';
 import ModalComponent from 'Components/Commons/Modal';
 import { useState } from 'react';
 import {
@@ -10,11 +10,19 @@ import {
     JoinFb,
     BtnText,
 } from './styled';
+import { useAppDispatch, useAppSelector } from 'Hooks/UseReduxStore';
 
 function Toolbar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
+    const myProfile = useAppSelector((state) => state.auth.myProfile);
 
     const showModal = () => {
+        if (!myProfile) {
+            messageApi.info('Please Log in to create your room!');
+            return;
+        }
+
         setIsModalOpen(true);
     };
 
@@ -29,6 +37,7 @@ function Toolbar() {
     return (
         <ToolbarWrapper>
             <CreateRoom>
+                {contextHolder}
                 <Space>
                     <Button type="primary" onClick={() => showModal()}>
                         <i className="fa fa-plus"></i>

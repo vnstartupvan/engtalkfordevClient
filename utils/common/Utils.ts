@@ -40,6 +40,10 @@ const getCookie = (cname: string) => {
     return '';
 };
 
+const removeCookie = (cname: string) => {
+    document.cookie = `${cname}=;path=/`;
+};
+
 const generateRandomColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
@@ -51,4 +55,5 @@ export const Utils = {
     getCookie,
     generateNameLetter,
     generateRandomColor,
+    removeCookie
 };

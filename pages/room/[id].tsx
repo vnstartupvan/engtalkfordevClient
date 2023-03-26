@@ -145,6 +145,9 @@ function RoomTemplate() {
 const RoomLayoutWapper = styled.div`
     display: flex;
     width: 100%;
+    background: linear-gradient(to left,#ff99ff 0%,#0066cc 100%);
+    padding: 15px 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 `;
 
 const MainContent = styled.div`
@@ -152,18 +155,17 @@ const MainContent = styled.div`
     display: flex;
     height: 100vh;
     flex-direction: column;
-    border-right: 1px solid #ccc;
     & > div {
         display: flex;
         justify-content: center;
         align-items: center;
-        border-bottom: 1px solid #ccc;
     }
 `;
 
 const SideBar = styled.div`
     width: 30%;
     height: 100vh;
+
 `;
 
 export default RoomTemplate;
