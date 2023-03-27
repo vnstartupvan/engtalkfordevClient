@@ -16,19 +16,19 @@ export default function ChatBar({
     user: IUserResponse | null;
 }) {
     const [messages, setMessages] = useState<any[]>([]);
-    const chatInputRef = useRef<any>();
+    const [inputMsg, setInputSmg] = useState<string>('');
 
     const handleSendMsg = (room: any, user: any) => {
-        const msg = chatInputRef.current?.resizableTextArea?.textArea.value;
-        if (!user || !msg) return;
+        if (!user || !inputMsg) return;
 
         const newMsg = {
             userName: user.fullname,
-            msg,
+            msg: inputMsg,
         };
 
         setMessages([...messages, newMsg]);
-        sendMsg(room, user, msg);
+        sendMsg(room, user, inputMsg);
+        setInputSmg('');
     };
 
     useEffect(() => {
@@ -70,7 +70,8 @@ export default function ChatBar({
             <div className="chatbox">
                 <div className="chatbox-wrapper">
                     <TextArea
-                        ref={chatInputRef}
+                        onChange={(e) => setInputSmg(e.target.value)}
+                        value={inputMsg}
                         className="chatbox__input"
                         rows={1}
                         placeholder="send message..."

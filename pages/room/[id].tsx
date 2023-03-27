@@ -78,6 +78,7 @@ function RoomTemplate() {
         });
 
         newUserConnect((user) => {
+            console.log('new user connect',user)
             const call = peer.call(user.peerId, stream);
             call.on('stream', (peerStream: any) => {
                 setUsers([...users, { ...user, mediaStream: peerStream }]);

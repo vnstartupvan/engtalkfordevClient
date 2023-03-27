@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Utils } from '@utils/common/Utils';
 import { message, Tooltip } from 'antd';
-import Settings from '@components/Rooms/RoomItem/Setting';
+import Settings from 'components/Rooms/RoomItem/Setting';
 
 export interface IComponentProps {
     room: IRoom;
