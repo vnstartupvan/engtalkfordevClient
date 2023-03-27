@@ -6,7 +6,8 @@ import io, { Socket } from 'socket.io-client';
 
 let ws: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
 export const initiateSocket = () => {
-    ws = io(env.apiUrl || '');
+    // ws = io(env.apiUrl || '');
+    ws = io('https://engtalkfordev-client-git-main-vnstartupvan.vercel.app');
 };
 
 export const disconnectSocket = () => {
