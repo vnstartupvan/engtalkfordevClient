@@ -6,7 +6,8 @@ import io, { Socket } from 'socket.io-client';
 
 let ws: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
 export const initiateSocket = () => {
-    ws = io('https://engtalkfordevserver.onrender.com');
+    // ws = io('https://engtalkfordevserver.onrender.com');
+    ws = io('http://localhost:3001');
         // ws = io(env.apiUrl || '');
 };
 

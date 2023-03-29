@@ -4,6 +4,7 @@ import { login } from 'libs/api/auth';
 import { AppDispatch } from 'libs/redux/store';
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '@libs/redux/reducers/AuthReducer';
+import { Utils } from '@utils/common/Utils';
 
 export interface ILoginForm {
     handleOk: () => void;
@@ -17,6 +18,8 @@ const LoginForm = ({ handleOk }: ILoginForm) => {
             const { username, password } = values;
             const loginReponse = await login(username, password);
             dispatch(updateProfile(loginReponse.user));
+            Utils.setCookie('accessToken', loginReponse.accessToken);
+            Utils.setCookie('refreshToken', loginReponse.refreshToken);
             handleOk();
         } catch (error) {}
     };
