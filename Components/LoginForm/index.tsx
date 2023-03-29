@@ -17,6 +17,7 @@ const LoginForm = ({ handleOk }: ILoginForm) => {
         try {
             const { username, password } = values;
             const loginReponse = await login(username, password);
+
             dispatch(updateProfile(loginReponse.user));
             Utils.setCookie('accessToken', loginReponse.accessToken);
             Utils.setCookie('refreshToken', loginReponse.refreshToken);
