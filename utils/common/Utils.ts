@@ -41,7 +41,7 @@ const getCookie = (cname: string) => {
 };
 
 const setCookie = (cname: string, cvalue: string) => {
-    document.cookie = `${cname}=${cvalue}`;
+    document.cookie = `${cname}=${cvalue}; path=/`;
 };
 
 const removeCookie = (cname: string) => {
