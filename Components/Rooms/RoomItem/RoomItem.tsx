@@ -27,7 +27,7 @@ const RoomItem: React.FC<IComponentProps> = ({ room }) => {
             return;
         }
 
-        window.open(`http://localhost:3000/room/${url}`);
+        window.open(`${window.location.origin}/room/${url}`);
     };
 
     const renderAvailableSlots = () => {
